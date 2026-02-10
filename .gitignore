@@ -22,3 +22,29 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+# Laravel
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+/storage/logs
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+/.env
+.env.*
+phpunit.xml
+composer.lock  # optional - if you want to keep lock file, remove this line
+
+# Vite / Frontend
+vite.config.js.cache
+mix-manifest.json
+hot
+
+# IDE / OS files
+.idea
+.vscode
+*.swp
+.DS_Store
+Thumbs.db
