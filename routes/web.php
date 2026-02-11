@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Support\Facades\Route;
 use App\Models\Profile;
 use App\Models\Contact;
 use App\Models\Experience;
@@ -17,4 +19,4 @@ Route::get('/', function () {
         'skills'      => Skill::orderBy('order')->get()->groupBy('category'),
         'projects'    => Project::orderBy('order')->get(),
     ]);
-})->name('portfolio');
+});

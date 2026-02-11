@@ -9,6 +9,8 @@ class Education extends Model
 {
     use HasFactory;
 
+    protected $table = 'educations'; 
+
     protected $fillable = [
         'degree',
         'institution',
@@ -17,9 +19,5 @@ class Education extends Model
         'grade',
         'description',
         'order',
-    ];
-
-    protected $casts = [
-        'order' => 'integer',
     ];
 }
