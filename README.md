@@ -9,8 +9,7 @@ A professional React + Vite portfolio for Anis Bastola, Junior Full Stack Develo
 
 ## Admin Panel
 Login at `/admin`
-- Username: `admin`
-- Password: `admin123`
+
 
 ## Development
 ```bash
