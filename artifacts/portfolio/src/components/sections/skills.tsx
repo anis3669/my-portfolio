@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { useInView } from "@/hooks/use-in-view";
 import {
   SiPhp, SiLaravel, SiVuedotjs, SiTailwindcss, SiAlpinedotjs,
@@ -40,7 +41,7 @@ const skillCategories = [
   },
 ];
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
     opacity: 1,

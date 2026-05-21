@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { useInView } from "@/hooks/use-in-view";
 import { Code2, Lightbulb, Rocket, Terminal } from "lucide-react";
 
@@ -32,12 +33,12 @@ const traits = [
   },
 ];
 
-const fadeUp = {
+const containerVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
 };
 
-const stagger = {
+const stagger: Variants = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
@@ -50,16 +51,16 @@ export function AboutSection() {
 
       <div className="container mx-auto px-6 md:px-16">
         {/* Header */}
-        <motion.div
-          variants={stagger}
+          <motion.div
+            variants={stagger}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           className="mb-20"
         >
-          <motion.p variants={fadeUp} className="text-primary font-mono text-xs tracking-widest uppercase mb-3">
+          <motion.p variants={containerVariants} className="text-primary font-mono text-xs tracking-widest uppercase mb-3">
             01. About Me
           </motion.p>
-          <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tight" data-testid="about-heading">
+          <motion.h2 variants={containerVariants} className="text-4xl md:text-5xl font-black tracking-tight" data-testid="about-heading">
             Who I Am
           </motion.h2>
         </motion.div>
@@ -72,17 +73,17 @@ export function AboutSection() {
             animate={inView ? "visible" : "hidden"}
             className="lg:col-span-3 space-y-5"
           >
-            <motion.p variants={fadeUp} className="text-muted-foreground leading-relaxed text-base" data-testid="about-bio-1">
+            <motion.p variants={containerVariants} className="text-muted-foreground leading-relaxed text-base" data-testid="about-bio-1">
               I'm <span className="text-foreground font-semibold">Anis Bastola</span>, a Junior Full Stack Developer from
               Madhyapur Thimi, Nepal. I build web applications that are not just functional, but crafted with
               attention to detail, performance, and user experience.
             </motion.p>
-            <motion.p variants={fadeUp} className="text-muted-foreground leading-relaxed text-base" data-testid="about-bio-2">
+            <motion.p variants={containerVariants} className="text-muted-foreground leading-relaxed text-base" data-testid="about-bio-2">
               My primary expertise is in the <span className="text-foreground font-semibold">TALL stack</span> — Tailwind CSS,
               Alpine.js, Laravel, and Livewire. I also have strong experience with <span className="text-foreground font-semibold">Filament</span>,
               the powerful admin panel framework for Laravel that I use to build elegant, feature-rich management interfaces.
             </motion.p>
-            <motion.p variants={fadeUp} className="text-muted-foreground leading-relaxed text-base" data-testid="about-bio-3">
+            <motion.p variants={containerVariants} className="text-muted-foreground leading-relaxed text-base" data-testid="about-bio-3">
               On the frontend, I complement my backend work with <span className="text-foreground font-semibold">Vue.js</span> for more
               complex SPAs. I care deeply about clean architecture, proper validation, and writing code that future
               developers (including myself) will appreciate reading.
@@ -90,7 +91,7 @@ export function AboutSection() {
 
             {/* Stats */}
             <motion.div
-              variants={fadeUp}
+              variants={containerVariants}
               className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 mt-4 border-t border-border"
             >
               {stats.map((stat) => (
@@ -112,12 +113,12 @@ export function AboutSection() {
             {traits.map((trait) => (
               <motion.div
                 key={trait.title}
-                variants={fadeUp}
+                variants={containerVariants}
                 className="p-5 rounded-xl border border-border bg-card hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 group"
                 data-testid={`trait-${trait.title.toLowerCase().replace(/ /g, '-')}`}
               >
                 <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors mt-0.5">
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors mt-0.5">
                     <trait.icon size={16} className="text-primary" />
                   </div>
                   <div>

@@ -1,7 +1,6 @@
 # Anis Bastola — Portfolio
 
-A professional React + Vite portfolio for Anis Bastola, Junior Full Stack Developer based in Madhyapur Thimi, Nepal.
-
+A professional React + Vite portfolio for Anis Bastola, Junior Full Stack Developer.
 ## Tech Stack
 
 - **Frontend**: React 19, Vite, Tailwind CSS v4, Framer Motion
@@ -63,18 +62,7 @@ Create a file called `.env` in the **project root** (same folder as `package.jso
 ```env
 MYSQL_URL=mysql://root:@localhost:3306/portfolio
 SESSION_SECRET=any-random-secret-string
-```
 
-> **Note:** XAMPP MySQL default port is `3306`. If yours is `3307`, change it accordingly.
-> Default username is `root` with no password. If you set a password, use `mysql://root:yourpassword@localhost:3306/portfolio`.
-
-**PowerShell (Windows):**
-```powershell
-$env:MYSQL_URL='mysql://root:@localhost:3306/portfolio'
-$env:SESSION_SECRET='any-random-secret-string'
-```
-
----
 
 ### Step 6 — Push the database schema
 
@@ -82,14 +70,6 @@ This creates all the tables in your `portfolio` database:
 
 ```bash
 pnpm --filter @workspace/db run push
-```
-
-**PowerShell (Windows) — set env var inline:**
-```powershell
-$env:MYSQL_URL='mysql://root:@localhost:3306/portfolio'; pnpm --filter @workspace/db run push
-```
-
----
 
 ### Step 7 — Run both servers
 
@@ -106,12 +86,6 @@ Runs at `http://localhost:8080`
 pnpm --filter @workspace/portfolio run dev
 ```
 Runs at `http://localhost:5173`
-
-> ⚠️ You must set `MYSQL_URL` before starting the API server.
->
-> **PowerShell:** `$env:MYSQL_URL='mysql://root:@localhost:3306/portfolio'; $env:SESSION_SECRET='secret'; pnpm --filter @workspace/api-server run dev`
-
----
 
 ### Step 8 — Seed the database (first time only)
 
