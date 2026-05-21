@@ -1,5 +1,8 @@
 import { defineConfig } from "drizzle-kit";
+import { fileURLToPath } from "url";
 import path from "path";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 if (!process.env.MYSQL_URL) {
   throw new Error("MYSQL_URL must be set");
@@ -12,7 +15,7 @@ const isLocal =
   url.includes("::1");
 
 export default defineConfig({
-  schema: "./src/schema/*.ts",
+  schema: path.join(__dirname, "./src/schema/index.ts"),
   dialect: "mysql",
   dbCredentials: {
     url,

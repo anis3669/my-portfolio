@@ -1,9 +1,9 @@
-import { mysqlTable, int, text, timestamp } from "drizzle-orm/mysql-core";
+import { mysqlTable, serial, text, int, timestamp } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
 export const skillsTable = mysqlTable("skills", {
-  id: int("id").autoincrement().primaryKey(),
+  id: serial("id").primaryKey(),
   name: text("name").notNull(),
   category: text("category").notNull(),
   iconKey: text("icon_key").notNull().default(""),

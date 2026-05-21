@@ -1,9 +1,9 @@
-import { mysqlTable, int, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { mysqlTable, serial, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
 export const adminTable = mysqlTable("admin_users", {
-  id: int("id").autoincrement().primaryKey(),
+  id: serial("id").primaryKey(),
   username: varchar("username", { length: 255 }).notNull().unique(),
   passwordHash: text("password_hash").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
