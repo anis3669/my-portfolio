@@ -1,9 +1,9 @@
-import { mysqlTable, serial, text, int, json, timestamp } from "drizzle-orm/mysql-core";
+import { mysqlTable, int, text, json, timestamp } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
 export const experiencesTable = mysqlTable("experiences", {
-  id: serial("id").primaryKey(),
+  id: int("id").autoincrement().primaryKey(),
   company: text("company").notNull(),
   position: text("position").notNull(),
   period: text("period").notNull(),
