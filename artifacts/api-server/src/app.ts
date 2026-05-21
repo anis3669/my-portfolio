@@ -2,9 +2,30 @@ import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
 import session from "express-session";
+import MySQLStoreFactory from "express-mysql-session";
 import cookieParser from "cookie-parser";
 import router from "./routes";
 import { logger } from "./lib/logger";
+import { pool } from "@workspace/db";
+
+const MySQLStore = MySQLStoreFactory(session);
+
+const sessionStore = new MySQLStore(
+  {
+    createDatabaseTable: true,
+    expiration: 1000 * 60 * 60 * 24 * 7,
+    checkExpirationInterval: 1000 * 60 * 15,
+    schema: {
+      tableName: "sessions",
+      columnNames: {
+        session_id: "session_id",
+        expires: "expires",
+        data: "data",
+      },
+    },
+  },
+  pool as never,
+);
 
 const app: Express = express();
 
@@ -37,6 +58,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
+  store: sessionStore,
   secret: process.env.SESSION_SECRET ?? "portfolio-admin-secret",
   resave: false,
   saveUninitialized: false,
@@ -44,6 +66,7 @@ app.use(session({
     httpOnly: true,
     secure: false,
     maxAge: 1000 * 60 * 60 * 24 * 7,
+    sameSite: "lax",
   },
 }));
 

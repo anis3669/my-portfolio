@@ -80,6 +80,7 @@ async function buildAll() {
       "leveldown",
       "miniflare",
       "mysql2",
+      "express-mysql-session",
       "newrelic",
       "odbc",
       "piscina",
