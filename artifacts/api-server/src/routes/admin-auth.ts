@@ -6,7 +6,10 @@ import { eq } from "drizzle-orm";
 const router = Router();
 
 router.post("/auth/login", async (req, res): Promise<void> => {
-  const { username, password } = req.body;
+  const rawUsername = typeof req.body?.username === "string" ? req.body.username : "";
+  const password = typeof req.body?.password === "string" ? req.body.password : "";
+  const username = rawUsername.trim();
+
   if (!username || !password) {
     res.status(400).json({ error: "Username and password required" });
     return;

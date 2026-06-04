@@ -1,17 +1,9 @@
+import "dotenv/config";
 import app from "./app";
 import { logger } from "./lib/logger";
-import { db, adminTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
-import bcrypt from "bcryptjs";
+import { ensureDefaultAdminUser } from "./lib/admin-user";
 
-const rawPort = process.env["PORT"];
-
-if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
-}
-
+const rawPort = process.env["PORT"] ?? "8080";
 const port = Number(rawPort);
 
 if (Number.isNaN(port) || port <= 0) {
@@ -19,27 +11,34 @@ if (Number.isNaN(port) || port <= 0) {
 }
 
 async function ensureAdminUser() {
-  try {
-    const [existing] = await db
-      .select({ id: adminTable.id })
-      .from(adminTable)
-      .where(eq(adminTable.username, "admin"));
-    if (!existing) {
-      const passwordHash = await bcrypt.hash("admin123", 10);
-      await db.insert(adminTable).values({ username: "admin", passwordHash });
-      logger.info("Admin user created on startup");
+  const maxAttempts = 30;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      await ensureDefaultAdminUser();
+      logger.info("Default admin user ensured on startup");
+      return;
+    } catch (err) {
+      if (attempt === maxAttempts) {
+        throw err;
+      }
+
+      logger.warn(
+        { err, attempt, maxAttempts },
+        "Waiting for database before creating admin user",
+      );
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
-  } catch (err) {
-    logger.warn({ err }, "Could not ensure admin user (DB may not be ready yet)");
   }
 }
 
-app.listen(port, async (err) => {
+await ensureAdminUser();
+
+app.listen(port, (err) => {
   if (err) {
     logger.error({ err }, "Error listening on port");
     process.exit(1);
   }
 
   logger.info({ port }, "Server listening");
-  await ensureAdminUser();
 });

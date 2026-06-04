@@ -73,7 +73,7 @@ export function AdminProjects() {
   const openEdit = (p: Project) => {
     setForm({ title: p.title, subtitle: p.subtitle, description: p.description, technologies: toStringArray(p.technologies),
       githubUrl: p.githubUrl ?? "", liveUrl: p.liveUrl ?? "", featured: p.featured,
-      highlight: p.highlight ?? "", adminFeatures: p.adminFeatures, order: p.order });
+      highlight: p.highlight ?? "", adminFeatures: toStringArray(p.adminFeatures), order: p.order });
     setTechInput("");
     setAdminFeatInput("");
     setEditing(p);

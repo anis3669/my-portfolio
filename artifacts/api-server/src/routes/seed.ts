@@ -1,17 +1,13 @@
 import { Router } from "express";
-import bcrypt from "bcryptjs";
 import { db, adminTable, projectsTable, skillsTable, experiencesTable, profileTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
+import { ensureDefaultAdminUser } from "../lib/admin-user";
 
 const router = Router();
 
 router.post("/seed", async (_req, res) => {
   try {
-    const [existingAdmin] = await db.select().from(adminTable).where(eq(adminTable.username, "admin"));
-    if (!existingAdmin) {
-      const passwordHash = await bcrypt.hash("admin123", 10);
-      await db.insert(adminTable).values({ username: "admin", passwordHash });
-    }
+    await ensureDefaultAdminUser();
 
     const existingProfile = await db.select().from(profileTable).limit(1);
     if (existingProfile.length === 0) {

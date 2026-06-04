@@ -9,6 +9,19 @@ import { logger } from "./lib/logger";
 import { pool } from "@workspace/db";
 
 const MySQLStore = MySQLStoreFactory(session);
+const isProduction = process.env.NODE_ENV === "production";
+const configuredOrigins = [process.env.CORS_ORIGIN, process.env.FRONTEND_URL]
+  .flatMap((value) => (value ? value.split(",") : []))
+  .map((value) => value.trim())
+  .filter(Boolean);
+const allowedOrigins = new Set(configuredOrigins);
+
+const sessionCookieSecure =
+  process.env.SESSION_COOKIE_SECURE === "true" || isProduction;
+const sessionSameSite =
+  process.env.SESSION_COOKIE_SAMESITE === "none" || sessionCookieSecure
+    ? "none"
+    : "lax";
 
 const sessionStore = new MySQLStore(
   {
@@ -28,6 +41,8 @@ const sessionStore = new MySQLStore(
 );
 
 const app: Express = express();
+
+app.set("trust proxy", isProduction);
 
 app.use(
   pinoHttp({
@@ -49,10 +64,29 @@ app.use(
   }),
 );
 
-app.use(cors({
-  origin: true,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+
+      if (!isProduction && allowedOrigins.size === 0) {
+        callback(null, true);
+        return;
+      }
+
+      if (allowedOrigins.size === 0 || allowedOrigins.has(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`CORS origin not allowed: ${origin}`));
+    },
+    credentials: true,
+  }),
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -64,9 +98,9 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: false,
+    secure: sessionCookieSecure,
     maxAge: 1000 * 60 * 60 * 24 * 7,
-    sameSite: "lax",
+    sameSite: sessionSameSite,
   },
 }));
 

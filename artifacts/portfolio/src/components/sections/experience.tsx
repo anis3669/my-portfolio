@@ -5,36 +5,36 @@ import { GraduationCap, Briefcase } from "lucide-react";
 const timeline = [
   {
     type: "education",
-    role: "Bachelor's in Computer Application",
+    role: "Bachelor of Science in Computer Science and Information Technology",
     organization: "Tribhuvan University",
-    location: "Kathmandu, Nepal",
+    location: "Bhaktapur, Nepal",
     start: "2022",
     end: "Present",
     description:
-      "Pursuing a Bachelor's degree in Computer Application, covering data structures, algorithms, web technologies, database systems, and software engineering fundamentals.",
-    tags: ["Algorithms", "Data Structures", "Web Tech", "DBMS"],
+      "Pursuing a Bachelor's degree in Computer Science, covering data structures, algorithms, web technologies, database systems, and software engineering fundamentals.",
+    tags: ["Algorithms", "Data Structures", "Web Tech", "DBMS","C Programming", "C++", "Java", "Python"],
   },
   {
-    type: "work",
-    role: "Freelance Full Stack Developer",
-    organization: "Self-Employed",
+    type: "Internship",
+    role: "Full Stack Web Developer",
+    organization: "Code IT",
     location: "Remote",
-    start: "2023",
-    end: "Present",
+    start: "Oct 2025",
+    end: "mar 2026",
     description:
-      "Designed and developed custom web applications for small businesses and individuals using Laravel, Livewire, Vue.js, and Tailwind CSS. Delivered complete solutions including admin panels, e-commerce sites, and management systems.",
-    tags: ["Laravel", "Vue.js", "Livewire", "Tailwind CSS"],
+      "Designed and developed custom web applications for small businesses and individuals using Laravel, Livewire, Filament, and Tailwind CSS. Delivered complete solutions including admin panels, e-commerce sites, and management systems.",
+    tags: ["Laravel", "Filament", "Livewire", "Tailwind CSS"],
   },
   {
     type: "education",
-    role: "+2 Science (HSEB)",
-    organization: "Higher Secondary Education Board",
-    location: "Bhaktapur, Nepal",
+    role: "+2 Science (NEB)",
+    organization: "Premier college",
+    location: "Kathmandu, Nepal",
     start: "2020",
     end: "2022",
     description:
-      "Completed higher secondary education with a focus on science and mathematics, building a strong analytical foundation for software development.",
-    tags: ["Science", "Mathematics"],
+      "Completed higher secondary education with a focus on science, Computer and mathematics, building a strong analytical foundation for software development.",
+    tags: ["Science", "Mathematics","Computer Science"],
   },
 ];
 
