@@ -7,9 +7,9 @@ export declare const projectsTable: import("drizzle-orm/mysql-core").MySqlTableW
             name: "id";
             tableName: "projects";
             dataType: "number";
-            columnType: "MySqlSerial";
+            columnType: "MySqlInt";
             data: number;
-            driverParam: number;
+            driverParam: string | number;
             notNull: true;
             hasDefault: true;
             isPrimaryKey: true;
@@ -79,7 +79,7 @@ export declare const projectsTable: import("drizzle-orm/mysql-core").MySqlTableW
             data: string[];
             driverParam: string;
             notNull: true;
-            hasDefault: true;
+            hasDefault: false;
             isPrimaryKey: false;
             isAutoincrement: false;
             hasRuntimeDefault: false;
@@ -165,8 +165,8 @@ export declare const projectsTable: import("drizzle-orm/mysql-core").MySqlTableW
             columnType: "MySqlJson";
             data: string[];
             driverParam: string;
-            notNull: false;
-            hasDefault: true;
+            notNull: true;
+            hasDefault: false;
             isPrimaryKey: false;
             isAutoincrement: false;
             hasRuntimeDefault: false;
@@ -235,12 +235,12 @@ export declare const insertProjectSchema: z.ZodObject<{
     title: z.ZodString;
     subtitle: z.ZodOptional<z.ZodString>;
     description: z.ZodString;
-    technologies: z.ZodOptional<z.ZodType<string[], string[], z.core.$ZodTypeInternals<string[], string[]>>>;
+    technologies: z.ZodType<string[], string[], z.core.$ZodTypeInternals<string[], string[]>>;
     githubUrl: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     liveUrl: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     featured: z.ZodOptional<z.ZodBoolean>;
     highlight: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-    adminFeatures: z.ZodOptional<z.ZodNullable<z.ZodType<string[], string[], z.core.$ZodTypeInternals<string[], string[]>>>>;
+    adminFeatures: z.ZodType<string[], string[], z.core.$ZodTypeInternals<string[], string[]>>;
     order: z.ZodOptional<z.ZodInt>;
 }, {
     out: {};

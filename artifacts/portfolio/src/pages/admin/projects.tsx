@@ -7,7 +7,7 @@ interface Project {
   title: string;
   subtitle: string;
   description: string;
-  technologies: string[];
+  technologies: string[] | string;
   githubUrl: string | null;
   liveUrl: string | null;
   featured: boolean;
@@ -16,7 +16,31 @@ interface Project {
   order: number;
 }
 
-const emptyForm: Omit<Project, "id"> = {
+interface ProjectForm {
+  title: string;
+  subtitle: string;
+  description: string;
+  technologies: string[];
+  githubUrl: string;
+  liveUrl: string;
+  featured: boolean;
+  highlight: string;
+  adminFeatures: string[];
+  order: number;
+}
+
+const toStringArray = (value: string[] | string | null | undefined) => {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string") {
+    return value
+      .split(/[,\n]/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+  return [];
+};
+
+const emptyForm: ProjectForm = {
   title: "", subtitle: "", description: "", technologies: [], githubUrl: "", liveUrl: "",
   featured: false, highlight: "", adminFeatures: [], order: 0,
 };
@@ -26,7 +50,7 @@ export function AdminProjects() {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<null | "create" | "edit">(null);
   const [editing, setEditing] = useState<Project | null>(null);
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState<ProjectForm>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [techInput, setTechInput] = useState("");
   const [adminFeatInput, setAdminFeatInput] = useState("");
@@ -47,7 +71,7 @@ export function AdminProjects() {
   };
 
   const openEdit = (p: Project) => {
-    setForm({ title: p.title, subtitle: p.subtitle, description: p.description, technologies: p.technologies,
+    setForm({ title: p.title, subtitle: p.subtitle, description: p.description, technologies: toStringArray(p.technologies),
       githubUrl: p.githubUrl ?? "", liveUrl: p.liveUrl ?? "", featured: p.featured,
       highlight: p.highlight ?? "", adminFeatures: p.adminFeatures, order: p.order });
     setTechInput("");
@@ -126,10 +150,10 @@ export function AdminProjects() {
                 </div>
                 <p className="text-xs text-zinc-500 line-clamp-2">{p.description}</p>
                 <div className="flex flex-wrap gap-1.5 mt-2">
-                  {p.technologies.slice(0, 4).map((t) => (
+                  {toStringArray(p.technologies).slice(0, 4).map((t: string) => (
                     <span key={t} className="px-1.5 py-0.5 rounded text-xs bg-zinc-800 text-zinc-400 border border-zinc-700">{t}</span>
                   ))}
-                  {p.technologies.length > 4 && <span className="text-xs text-zinc-600">+{p.technologies.length - 4}</span>}
+                  {toStringArray(p.technologies).length > 4 && <span className="text-xs text-zinc-600">+{toStringArray(p.technologies).length - 4}</span>}
                 </div>
               </div>
               <div className="flex gap-2 flex-shrink-0">

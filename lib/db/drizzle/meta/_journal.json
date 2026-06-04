@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1779381664680,
+      "tag": "0000_unique_blockbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1779382467209,
+      "tag": "0001_tan_puppet_master",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,24 +1,32 @@
 import { defineConfig } from "drizzle-kit";
-import { fileURLToPath } from "url";
-import path from "path";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const connectionUrl = process.env.DATABASE_URL ?? process.env.MYSQL_URL;
 
-if (!process.env.MYSQL_URL) {
-  throw new Error("MYSQL_URL must be set");
+if (!connectionUrl) {
+  throw new Error("DATABASE_URL or MYSQL_URL must be set");
 }
 
-const url = process.env.MYSQL_URL.split("?")[0];
+const url = new URL(connectionUrl.split("?")[0]);
+const host = url.hostname;
+const port = url.port ? Number(url.port) : 3306;
+const user = decodeURIComponent(url.username);
+const password = decodeURIComponent(url.password);
+const database = url.pathname.replace(/^\//, "");
+
 const isLocal =
-  url.includes("localhost") ||
-  url.includes("127.0.0.1") ||
-  url.includes("::1");
+  host.includes("localhost") ||
+  host.includes("127.0.0.1") ||
+  host.includes("::1");
 
 export default defineConfig({
-  schema: path.join(__dirname, "./src/schema/index.ts"),
+  schema: "./src/schema",
   dialect: "mysql",
   dbCredentials: {
-    url,
+    host,
+    port,
+    user,
+    database,
+    ...(password ? { password } : {}),
     ...(isLocal ? {} : { ssl: {} }),
   },
 });

@@ -7,9 +7,9 @@ export declare const experiencesTable: import("drizzle-orm/mysql-core").MySqlTab
             name: "id";
             tableName: "experiences";
             dataType: "number";
-            columnType: "MySqlSerial";
+            columnType: "MySqlInt";
             data: number;
-            driverParam: number;
+            driverParam: string | number;
             notNull: true;
             hasDefault: true;
             isPrimaryKey: true;
@@ -113,7 +113,7 @@ export declare const experiencesTable: import("drizzle-orm/mysql-core").MySqlTab
             data: string[];
             driverParam: string;
             notNull: true;
-            hasDefault: true;
+            hasDefault: false;
             isPrimaryKey: false;
             isAutoincrement: false;
             hasRuntimeDefault: false;
@@ -180,7 +180,7 @@ export declare const experiencesTable: import("drizzle-orm/mysql-core").MySqlTab
 }>;
 export declare const insertExperienceSchema: z.ZodObject<{
     description: z.ZodString;
-    technologies: z.ZodOptional<z.ZodType<string[], string[], z.core.$ZodTypeInternals<string[], string[]>>>;
+    technologies: z.ZodType<string[], string[], z.core.$ZodTypeInternals<string[], string[]>>;
     order: z.ZodOptional<z.ZodInt>;
     company: z.ZodString;
     position: z.ZodString;

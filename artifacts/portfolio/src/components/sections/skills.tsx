@@ -45,7 +45,7 @@ const fadeUp = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: "easeOut", delay: i * 0.05 },
+    transition: { duration: 0.5, ease: "easeOut" as any, delay: i * 0.05 },
   }),
 };
 
@@ -104,7 +104,7 @@ export function SkillsSection() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={inView ? { width: `${skill.level}%` } : { width: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 + i * 0.04 }}
+                        transition={{ duration: 0.8, ease: "easeOut" as any, delay: 0.3 + i * 0.04 }}
                         className="h-full rounded-full bg-gradient-to-r from-primary to-blue-400"
                       />
                     </div>
