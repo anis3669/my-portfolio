@@ -15,6 +15,7 @@ VITE_API_URL=auto
 pnpm install
 pnpm --filter @workspace/db run push
 pnpm run dev
+pnpm --filter @workspace/api-server run dev
 ```
 
 ## Access

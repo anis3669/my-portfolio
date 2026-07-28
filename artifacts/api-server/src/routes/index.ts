@@ -6,6 +6,7 @@ import skillsRouter from "./skills";
 import experiencesRouter from "./experiences";
 import profileRouter from "./profile";
 import seedRouter from "./seed";
+import contactRouter from "./contact";
 
 const router: IRouter = Router();
 
@@ -16,5 +17,6 @@ router.use(skillsRouter);
 router.use(experiencesRouter);
 router.use(profileRouter);
 router.use(seedRouter);
+router.use(contactRouter);
 
 export default router;

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import mysql from "mysql2/promise";
 import * as schema from "./schema";
 export declare const pool: mysql.Pool;

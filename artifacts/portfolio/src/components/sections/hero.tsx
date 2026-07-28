@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, MapPin, Download, ExternalLink } from "lucide-react";
+import { api } from "@/lib/api";
 
 const ROLES = [
   "Junior Full Stack Developer",
@@ -11,6 +12,7 @@ const ROLES = [
 
 export function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
+  const [cvUrl, setCvUrl] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -18,6 +20,12 @@ export function HeroSection() {
       setRoleIndex((prev) => (prev + 1) % ROLES.length);
     }, 2800);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    api.get<{ cvUrl: string }>("/profile")
+      .then((data) => setCvUrl(data.cvUrl ?? ""))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -198,7 +206,9 @@ export function HeroSection() {
                 <Mail size={14} />
               </button>
               <a
-                href="#"
+                href={cvUrl || "#"}
+                target={cvUrl ? "_blank" : undefined}
+                rel={cvUrl ? "noopener noreferrer" : undefined}
                 data-testid="btn-download-cv"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-muted-foreground font-semibold text-sm hover:border-primary/40 hover:bg-primary/5 active:scale-95 transition-all duration-200"
               >

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/use-in-view";
-import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle } from "lucide-react";
+import { api } from "@/lib/api";
+import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle, Loader2 } from "lucide-react";
 
 const contactInfo = [
   {
@@ -39,13 +40,22 @@ export function ContactSection() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate submission
-    setTimeout(() => {
+    setSubmitError("");
+    setSubmitting(true);
+    try {
+      await api.post("/contact", form);
       setSubmitted(true);
       setForm({ name: "", email: "", subject: "", message: "" });
-    }, 600);
+    } catch (e: any) {
+      setSubmitError(e.message ?? "Failed to send message. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -221,13 +231,20 @@ export function ContactSection() {
                   />
                 </div>
 
+                {submitError && (
+                  <div className="px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                    {submitError}
+                  </div>
+                )}
+
                 <button
                   type="submit"
                   data-testid="btn-submit"
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 active:scale-[0.98] transition-all duration-200 glow-sm"
+                  disabled={submitting}
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 active:scale-[0.98] transition-all duration-200 glow-sm disabled:opacity-60"
                 >
-                  <Send size={16} />
-                  Send Message
+                  {submitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+                  {submitting ? "Sending..." : "Send Message"}
                 </button>
               </form>
             )}

@@ -184,6 +184,7 @@ export function AdminProjects() {
                 { label: "GitHub URL", key: "githubUrl", placeholder: "https://github.com/..." },
                 { label: "Live URL", key: "liveUrl", placeholder: "https://..." },
                 { label: "Display Order", key: "order", placeholder: "1", type: "number" },
+                { label: "Highlight Tag", key: "highlight", placeholder: "e.g. filament" },
               ].map((field) => (
                 <div key={field.key}>
                   <label className="block text-xs font-medium text-zinc-400 mb-1.5">{field.label}</label>
