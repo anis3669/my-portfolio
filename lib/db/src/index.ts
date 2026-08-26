@@ -1,7 +1,10 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
+import path from "node:path";
 import * as schema from "./schema";
+
+dotenv.config({ path: path.resolve(process.cwd(), "../../.env") });
 
 const connectionUrl = process.env.DATABASE_URL ?? process.env.MYSQL_URL;
 

@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { db, adminTable, projectsTable, skillsTable, experiencesTable, profileTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { db, projectsTable, skillsTable, experiencesTable, profileTable } from "@workspace/db";
 import { ensureDefaultAdminUser } from "../lib/admin-user";
+import { requireAdmin } from "../middlewares/require-admin";
 
 const router = Router();
 
-router.post("/seed", async (_req, res) => {
+router.post("/seed", requireAdmin, async (_req, res) => {
   try {
     await ensureDefaultAdminUser();
 

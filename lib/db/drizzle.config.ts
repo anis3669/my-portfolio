@@ -1,5 +1,8 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import { defineConfig } from "drizzle-kit";
+import path from "node:path";
+
+dotenv.config({ path: path.resolve(process.cwd(), "../../.env") });
 
 const connectionUrl = process.env.DATABASE_URL ?? process.env.MYSQL_URL;
 

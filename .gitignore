@@ -38,3 +38,4 @@ yarn-error.log
 # Environment — NEVER commit secrets
 .env
 .env.*
+!.env.example

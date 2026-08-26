@@ -107,17 +107,21 @@ pnpm install
 
 ### Configure Environment
 
-Create the required `.env` file for the backend.
+Create a `.env` file in the project root. The database package uses a MySQL connection URL.
 
 Example:
 
 ```env
 PORT=8080
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_USER=root
-MYSQL_PASSWORD=
-MYSQL_DATABASE=portfolio
+DATABASE_URL=mysql://root:@localhost:3306/portfolio
+SESSION_SECRET=replace-with-a-long-random-value
+CORS_ORIGIN=http://localhost:5173
+```
+
+Create the database named `portfolio`, then apply the schema:
+
+```bash
+pnpm db:push
 ```
 
 ---

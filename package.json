@@ -5,9 +5,10 @@
   "scripts": {
     "preinstall": "node -e \"const fs=require('fs'); const files=['package-lock.json','yarn.lock']; for (const file of files) { try { fs.unlinkSync(file); } catch {} } if (!process.env.npm_config_user_agent?.startsWith('pnpm/')) { console.error('Use pnpm instead'); process.exit(1); }\"",
     "dev": "pnpm --parallel --filter @workspace/api-server --filter @workspace/portfolio run dev",
+    "db:push": "pnpm --filter @workspace/db run push",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --if-present run typecheck"
   },
   "private": true,
   "devDependencies": {
