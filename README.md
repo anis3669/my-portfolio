@@ -28,7 +28,6 @@ This application serves as both a personal portfolio website and a content manag
 - Projects CRUD
 - Skills CRUD
 - Experience CRUD
-- Contact message management
 - REST API integration
 
 ---
@@ -62,18 +61,14 @@ This application serves as both a personal portfolio website and a content manag
 
 ##  Project Structure
 
-```
 my-portfolio/
 │
 ├── artifacts/
 │   ├── api-server/          # Express Backend
 │   └── portfolio/           # React Frontend
 │
-├── server/
-├── storage/
 ├── package.json
 └── README.md
-```
 
 ---
 
@@ -116,6 +111,8 @@ PORT=8080
 DATABASE_URL=mysql://root:@localhost:3306/portfolio
 SESSION_SECRET=replace-with-a-long-random-value
 CORS_ORIGIN=http://localhost:5173
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
 ```
 
 Create the database named `portfolio`, then apply the schema:
@@ -123,6 +120,7 @@ Create the database named `portfolio`, then apply the schema:
 ```bash
 pnpm db:push
 ```
+
 
 ---
 
@@ -143,14 +141,29 @@ simultaneously.
 
 ---
 
-## Admin Login
+### Production
 
-Default credentials:
+Build both applications:
 
+```bash
+pnpm build
 ```
-Username: admin
-Password: admin123
+
+Start the API:
+
+```bash
+pnpm start:api
 ```
+
+Serve `artifacts/portfolio/dist/public` with a static web server or CDN. Before deployment, set a random `SESSION_SECRET` of at least 32 characters, a public `CORS_ORIGIN`, and a non-default `ADMIN_PASSWORD`.
+
+Apply database migrations before starting the API:
+
+```bash
+pnpm db:push
+```
+
+The API listens on `PORT` (default `8080`).
 
 ---
 

@@ -43,7 +43,7 @@ export function ExperienceSection() {
 
   return (
     <section id="experience" ref={ref} className="py-32 relative">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
 
       <div className="container mx-auto px-6 md:px-12">
         <motion.div
@@ -60,7 +60,7 @@ export function ExperienceSection() {
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-primary/30 via-border to-transparent hidden md:block" />
+          <div className="absolute left-6 top-0 bottom-0 w-px bg-linear-to-b from-primary/30 via-border to-transparent hidden md:block" />
 
           <div className="space-y-10">
             {timeline.map((item, i) => (
@@ -73,7 +73,7 @@ export function ExperienceSection() {
                 data-testid={`experience-item-${i}`}
               >
                 {/* Icon dot */}
-                <div className="hidden md:flex absolute left-0 top-1 w-12 h-12 rounded-full border-2 border-primary/30 bg-card items-center justify-center flex-shrink-0">
+                <div className="hidden md:flex absolute left-0 top-1 w-12 h-12 rounded-full border-2 border-primary/30 bg-card items-center justify-center shrink-0">
                   {item.type === "work" ? (
                     <Briefcase size={18} className="text-primary" />
                   ) : (

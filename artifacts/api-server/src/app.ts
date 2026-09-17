@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
@@ -7,6 +8,9 @@ import cookieParser from "cookie-parser";
 import router from "./routes";
 import { logger } from "./lib/logger";
 import { pool } from "@workspace/db";
+import path from "node:path";
+
+dotenv.config({ path: path.resolve(process.cwd(), "../../.env") });
 
 const MySQLStore = MySQLStoreFactory(session);
 const isProduction = process.env.NODE_ENV === "production";
@@ -15,6 +19,15 @@ const configuredOrigins = [process.env.CORS_ORIGIN, process.env.FRONTEND_URL]
   .map((value) => value.trim())
   .filter(Boolean);
 const allowedOrigins = new Set(configuredOrigins);
+
+if (isProduction && allowedOrigins.size === 0) {
+  throw new Error("CORS_ORIGIN or FRONTEND_URL must be set in production.");
+}
+
+const sessionSecret = process.env.SESSION_SECRET;
+if (isProduction && (!sessionSecret || sessionSecret.length < 32)) {
+  throw new Error("SESSION_SECRET must be at least 32 characters in production.");
+}
 
 const sessionCookieSecure =
   process.env.SESSION_COOKIE_SECURE === "true" || isProduction;
@@ -77,7 +90,7 @@ app.use(
         return;
       }
 
-      if (allowedOrigins.size === 0 || allowedOrigins.has(origin)) {
+      if (allowedOrigins.has(origin)) {
         callback(null, true);
         return;
       }
@@ -93,7 +106,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
   store: sessionStore,
-  secret: process.env.SESSION_SECRET ?? "portfolio-admin-secret",
+  secret: sessionSecret ?? "development-session-secret",
   resave: false,
   saveUninitialized: false,
   cookie: {

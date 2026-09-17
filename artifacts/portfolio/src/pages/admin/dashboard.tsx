@@ -99,7 +99,7 @@ export function AdminDashboard() {
           ].map((action) => (
             <Link key={action.label} href={action.href}>
               <div className="flex items-center gap-3 p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/60 hover:border-amber-500/30 hover:bg-amber-500/5 transition-all cursor-pointer group">
-                <action.icon size={15} className="text-zinc-500 group-hover:text-amber-400 transition-colors flex-shrink-0" />
+                <action.icon size={15} className="text-zinc-500 group-hover:text-amber-400 transition-colors shrink-0" />
                 <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">{action.label}</span>
                 <ArrowRight size={12} className="ml-auto text-zinc-600 group-hover:text-amber-400 transition-colors" />
               </div>

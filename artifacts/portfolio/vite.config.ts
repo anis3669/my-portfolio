@@ -3,10 +3,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { fileURLToPath } from "url";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// Allow builds to run without requiring environment vars.
-// Use reasonable defaults when not provided (development may override).
 const rawPort = process.env.PORT;
 const port = rawPort && !Number.isNaN(Number(rawPort)) && Number(rawPort) > 0
   ? Number(rawPort)
@@ -16,8 +13,9 @@ const basePath = process.env.BASE_PATH ?? "/";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig(async () => {
-  const plugins = [react(), tailwindcss(), runtimeErrorOverlay()];
+export default defineConfig(async ({ mode }) => {
+  const isProduction = mode === "production";
+  const plugins = [react(), tailwindcss()];
 
   if (process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined) {
     const carto = await import("@replit/vite-plugin-cartographer");
@@ -46,7 +44,7 @@ export default defineConfig(async () => {
     server: {
       port,
       host: "0.0.0.0",
-      allowedHosts: true,
+      allowedHosts: ["localhost", "127.0.0.1"],
       proxy: {
         "/api": {
           target: "http://localhost:8080",
@@ -60,8 +58,8 @@ export default defineConfig(async () => {
     },
     preview: {
       port,
-      host: "0.0.0.0",
-      allowedHosts: true,
+      host: "127.0.0.1",
+      allowedHosts: ["localhost", "127.0.0.1"],
     },
   };
 });
