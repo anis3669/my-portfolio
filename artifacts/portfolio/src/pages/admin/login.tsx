@@ -16,8 +16,8 @@ export function AdminLogin() {
     setLoading(true);
     try {
       await login(username, password);
-    } catch {
-      setError("Invalid username or password");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Unable to sign in");
     } finally {
       setLoading(false);
     }
