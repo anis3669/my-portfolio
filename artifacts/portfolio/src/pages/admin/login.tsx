@@ -19,7 +19,7 @@ export function AdminLogin() {
     } catch (error) {
       setError(error instanceof Error ? error.message : "Unable to sign in");
     } finally {
-      setLoading(false);
+      setLoading(false);     
     }
   };
 
