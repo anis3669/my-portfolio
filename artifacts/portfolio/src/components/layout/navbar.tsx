@@ -107,11 +107,13 @@ export function Navbar() {
             );
           })}
 
-          {/* Fix #9: Dark / Light mode toggle */}
+          {/* Dark / Light mode toggle */}
           <button
+            type="button"
             onClick={toggleTheme}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            className="ml-1 w-9 h-9 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-primary/5 transition-all duration-200"
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="ml-1 w-9 h-9 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-primary/5 transition-all duration-200 cursor-pointer"
           >
             {isDark ? <Sun size={15} /> : <Moon size={15} />}
           </button>
@@ -128,9 +130,11 @@ export function Navbar() {
         <div className="md:hidden flex items-center gap-2">
           {/* Theme toggle on mobile too */}
           <button
+            type="button"
             onClick={toggleTheme}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            className="w-9 h-9 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="w-9 h-9 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           >
             {isDark ? <Sun size={15} /> : <Moon size={15} />}
           </button>
