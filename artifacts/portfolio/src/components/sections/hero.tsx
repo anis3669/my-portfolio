@@ -13,6 +13,8 @@ const ROLES = [
 export function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [cvUrl, setCvUrl] = useState<string>("");
+  // Fix #3: fetch avatar/photo URL from profile API if available
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -23,8 +25,11 @@ export function HeroSection() {
   }, []);
 
   useEffect(() => {
-    api.get<{ cvUrl: string }>("/profile")
-      .then((data) => setCvUrl(data.cvUrl ?? ""))
+    api.get<{ cvUrl: string; avatarUrl?: string }>("/profile")
+      .then((data) => {
+        setCvUrl(data.cvUrl ?? "");
+        setAvatarUrl(data.avatarUrl ?? "");
+      })
       .catch(() => {});
   }, []);
 
@@ -33,6 +38,10 @@ export function HeroSection() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    // Fix #12: respect prefers-reduced-motion — skip animation entirely if user has it on
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
 
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
@@ -89,9 +98,13 @@ export function HeroSection() {
     };
 
     animate();
+
+    // Fix #13: cancel current animation frame BEFORE resizing to prevent duplicate frames
     const handleResize = () => {
+      cancelAnimationFrame(animId);
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
+      animId = requestAnimationFrame(animate);
     };
     window.addEventListener("resize", handleResize);
     return () => {
@@ -115,7 +128,8 @@ export function HeroSection() {
       <div className="absolute bottom-1/4 left-1/3 w-[300px] h-[300px] rounded-full bg-blue-500/4 blur-[100px] pointer-events-none" />
 
       <div className="relative z-10 container mx-auto px-6 md:px-16 pt-24 pb-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[80vh]">
+        {/* Fix #21: show profile card from md (not just lg) with a compact md variant */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center min-h-[80vh]">
           {/* Left — text */}
           <div>
             {/* Availability badge */}
@@ -255,29 +269,37 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Right — profile visual */}
+          {/* Right — profile visual (Fix #21: visible from md, not just lg) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="hidden lg:flex items-center justify-center"
+            className="flex items-center justify-center"
           >
             <div className="relative">
               {/* Outer glow ring */}
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/20 to-blue-500/10 blur-2xl scale-110" />
 
               {/* Card */}
-              <div className="relative w-[360px] rounded-3xl border border-border bg-card overflow-hidden">
+              <div className="relative w-[300px] md:w-[320px] lg:w-[360px] rounded-3xl border border-border bg-card overflow-hidden">
                 {/* Profile top */}
                 <div className="bg-gradient-to-br from-primary/20 via-primary/10 to-transparent h-24 relative">
                   <div className="absolute inset-0 grid-bg opacity-20" />
                 </div>
 
-                {/* Avatar */}
+                {/* Avatar — Fix #3: show real photo if avatarUrl is set, else initials */}
                 <div className="px-8 pb-8 -mt-10">
-                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center text-white text-2xl font-black mb-4 border-4 border-card">
-                    AB
-                  </div>
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt="Anis Bastola"
+                      className="w-20 h-20 rounded-2xl object-cover mb-4 border-4 border-card shadow-md"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center text-white text-2xl font-black mb-4 border-4 border-card">
+                      AB
+                    </div>
+                  )}
                   <h3 className="text-xl font-bold text-foreground">Anis Bastola</h3>
                   <p className="text-sm text-primary font-mono mt-0.5 mb-4">Junior Full Stack Developer</p>
 

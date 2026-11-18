@@ -12,15 +12,17 @@ const timeline = [
     end: "Present",
     description:
       "Pursuing a Bachelor's degree in Computer Science, covering data structures, algorithms, web technologies, database systems, and software engineering fundamentals.",
-    tags: ["Algorithms", "Data Structures", "Web Tech", "DBMS","C Programming", "C++", "Java", "Python"],
+    tags: ["Algorithms", "Data Structures", "Web Tech", "DBMS", "C Programming", "C++", "Java", "Python"],
   },
   {
-    type: "Internship",
+    // Fix #7: type changed to "work" so the Briefcase icon renders correctly
+    type: "work",
     role: "Full Stack Web Developer",
     organization: "Code IT",
     location: "Remote",
+    // Fix #8: consistent date casing (Oct → Oct, mar → Mar)
     start: "Oct 2025",
-    end: "mar 2026",
+    end: "Mar 2026",
     description:
       "Designed and developed custom web applications for small businesses and individuals using Laravel, Livewire, Filament, and Tailwind CSS. Delivered complete solutions including admin panels, e-commerce sites, and management systems.",
     tags: ["Laravel", "Filament", "Livewire", "Tailwind CSS"],
@@ -28,13 +30,14 @@ const timeline = [
   {
     type: "education",
     role: "+2 Science (NEB)",
-    organization: "Premier college",
+    // Fix #22: capitalised "College"
+    organization: "Premier College",
     location: "Kathmandu, Nepal",
     start: "2020",
     end: "2022",
     description:
-      "Completed higher secondary education with a focus on science, Computer and mathematics, building a strong analytical foundation for software development.",
-    tags: ["Science", "Mathematics","Computer Science"],
+      "Completed higher secondary education with a focus on Science, Computer Science and Mathematics, building a strong analytical foundation for software development.",
+    tags: ["Science", "Mathematics", "Computer Science"],
   },
 ];
 
@@ -86,7 +89,7 @@ export function ExperienceSection() {
                   <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
                     <div>
                       <span className="text-xs font-mono text-primary uppercase tracking-widest">
-                        {item.type === "work" ? "Work" : "Education"}
+                        {item.type === "work" ? "Work" : item.type === "education" ? "Education" : item.type}
                       </span>
                       <h3 className="text-lg font-bold text-foreground mt-1">{item.role}</h3>
                       <p className="text-primary font-medium">{item.organization}</p>

@@ -2,12 +2,44 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Portfolio</title>
+    <!-- Fix #10: removed maximum-scale=1 so mobile users can pinch-to-zoom -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fix #4: SEO & Open Graph meta tags -->
+    <title>Anis Bastola — Junior Full Stack Developer</title>
+    <meta name="description" content="Junior Full Stack Developer from Nepal specialising in Laravel, Filament, Livewire and Vue.js — building production-grade web applications and elegant admin panels." />
+    <meta name="author" content="Anis Bastola" />
+    <meta name="keywords" content="Laravel developer, Filament, Livewire, Vue.js, Full Stack, PHP, Nepal, portfolio" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Anis Bastola — Junior Full Stack Developer" />
+    <meta property="og:description" content="Building production-grade web applications with Laravel, Filament, Livewire and Vue.js." />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:url" content="https://anisbastola.dev" />
+    <meta property="og:site_name" content="Anis Bastola Portfolio" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Anis Bastola — Junior Full Stack Developer" />
+    <meta name="twitter:description" content="Building production-grade web apps with Laravel, Filament & Vue.js." />
+    <meta name="twitter:image" content="/og-image.png" />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme');
+          if (saved === 'light') {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+          } else {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

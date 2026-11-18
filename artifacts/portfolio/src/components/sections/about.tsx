@@ -6,7 +6,8 @@ const stats = [
   { value: "1+", label: "Year Experience" },
   { value: "10+", label: "Projects Built" },
   { value: "15+", label: "Technologies" },
-  { value: "100%", label: "Passion Driven" },
+  // Fix #14: replaced hollow "100% Passion Driven" with something concrete
+  { value: "5+", label: "Clients Served" },
 ];
 
 const traits = [
@@ -34,7 +35,8 @@ const traits = [
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" as any } },
+  // Fix #18: removed "as any" cast — Framer Motion accepts string ease values directly
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
 };
 
 const stagger = {

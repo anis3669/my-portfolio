@@ -74,7 +74,7 @@
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  /* Dark theme — deep navy with violet accent */
+  /* Dark theme — deep navy with violet accent (default) */
   --background: 222 47% 7%;
   --foreground: 210 40% 96%;
 
@@ -189,6 +189,64 @@
   --shadow-2xl: 0px 24px 64px 0px rgba(0,0,0,0.9);
 }
 
+/* Light Theme — completely defined outside @layer base to properly override :root */
+html.light,
+.light {
+  color-scheme: light;
+  --button-outline: rgba(0,0,0, .08);
+  --badge-outline: rgba(0,0,0, .05);
+  --elevate-1: rgba(0,0,0, .02);
+  --elevate-2: rgba(0,0,0, .05);
+
+  --background: 210 25% 98%;
+  --foreground: 222 47% 11%;
+
+  --border: 220 13% 88%;
+  --input: 220 13% 88%;
+  --ring: 258 90% 62%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --card-border: 220 13% 88%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --popover-border: 220 13% 88%;
+
+  --sidebar: 210 25% 96%;
+  --sidebar-foreground: 222 47% 11%;
+  --sidebar-border: 220 13% 88%;
+  --sidebar-primary: 258 90% 62%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 13% 92%;
+  --sidebar-accent-foreground: 222 47% 11%;
+  --sidebar-ring: 258 90% 62%;
+
+  --primary: 258 90% 62%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 220 13% 94%;
+  --secondary-foreground: 222 47% 11%;
+
+  --muted: 220 13% 94%;
+  --muted-foreground: 215 16% 45%;
+
+  --accent: 258 90% 62%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --shadow-2xs: 0px 1px 3px 0px rgba(0,0,0,0.06);
+  --shadow-xs: 0px 2px 6px 0px rgba(0,0,0,0.06);
+  --shadow-sm: 0px 2px 8px 0px rgba(0,0,0,0.08);
+  --shadow: 0px 4px 16px 0px rgba(0,0,0,0.08);
+  --shadow-md: 0px 6px 24px 0px rgba(0,0,0,0.08);
+  --shadow-lg: 0px 8px 32px 0px rgba(0,0,0,0.10);
+  --shadow-xl: 0px 12px 48px 0px rgba(0,0,0,0.10);
+  --shadow-2xl: 0px 24px 64px 0px rgba(0,0,0,0.12);
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -198,6 +256,7 @@
   }
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 }
 
@@ -231,6 +290,14 @@
     background-image:
       linear-gradient(hsl(217 33% 18% / 0.3) 1px, transparent 1px),
       linear-gradient(to right, hsl(217 33% 18% / 0.3) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  html.light .grid-bg,
+  .light .grid-bg {
+    background-image:
+      linear-gradient(hsl(220 13% 84% / 0.6) 1px, transparent 1px),
+      linear-gradient(to right, hsl(220 13% 84% / 0.6) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 }

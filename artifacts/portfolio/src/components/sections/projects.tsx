@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/use-in-view";
-import { ExternalLink, Github, Shield, Star, Layers } from "lucide-react";
+import { ExternalLink, Github, Shield, Star, Layers, Lock } from "lucide-react";
 
+// Fix #2: projects now have accurate GitHub URLs.
+// Projects 2-6 are marked private: true until real repo URLs are added.
 const projects = [
   {
     id: 1,
@@ -14,6 +16,7 @@ const projects = [
     live: null,
     featured: true,
     highlight: "filament",
+    private: false,
     adminFeatures: [
       "Projects CRUD with image uploads",
       "Skills management with Font Awesome icons",
@@ -28,10 +31,11 @@ const projects = [
     description:
       "A full-stack e-commerce application with product catalog, shopping cart, user authentication, order management, payment integration, and an admin dashboard. Built with Laravel on the backend and Vue.js for a dynamic, reactive frontend with real-time cart updates.",
     technologies: ["Laravel", "Vue.js", "Tailwind CSS", "MySQL", "Stripe"],
-    github: "https://github.com/anis3669",
+    github: null,
     live: null,
     featured: true,
     highlight: null,
+    private: true,
     adminFeatures: [],
   },
   {
@@ -41,10 +45,11 @@ const projects = [
     description:
       "A real-time collaborative task manager with Kanban boards, task assignment, deadlines, and priority labels. Built entirely with Laravel Livewire — zero JavaScript frameworks, all reactivity handled server-side. Features real-time updates, filtering, and team workspaces.",
     technologies: ["Laravel", "Livewire", "Alpine.js", "Tailwind CSS", "PostgreSQL"],
-    github: "https://github.com/anis3669",
+    github: null,
     live: null,
     featured: true,
     highlight: null,
+    private: true,
     adminFeatures: [],
   },
   {
@@ -54,10 +59,11 @@ const projects = [
     description:
       "A feature-rich blog platform with Markdown editing, category/tag system, SEO meta management, comment threading, and a Filament-powered admin panel with media management.",
     technologies: ["Laravel", "Filament", "Livewire", "Tailwind CSS", "MySQL"],
-    github: "https://github.com/anis3669",
+    github: null,
     live: null,
     featured: false,
     highlight: null,
+    private: true,
     adminFeatures: [],
   },
   {
@@ -67,10 +73,11 @@ const projects = [
     description:
       "An academic result management system for schools. Faculty can enter grades, generate PDF report cards, and track progress across semesters. Includes role-based access control for admin, teacher, and student roles.",
     technologies: ["Laravel", "Blade", "Tailwind CSS", "MySQL", "DomPDF"],
-    github: "https://github.com/anis3669",
+    github: null,
     live: null,
     featured: false,
     highlight: null,
+    private: true,
     adminFeatures: [],
   },
   {
@@ -80,10 +87,11 @@ const projects = [
     description:
       "A clean, documented RESTful API backend with token-based auth, rate limiting, resource transformers, and versioning. Full API documentation generated with Scribe.",
     technologies: ["Laravel", "Sanctum", "Scribe", "MySQL", "PHP"],
-    github: "https://github.com/anis3669",
+    github: null,
     live: null,
     featured: false,
     highlight: null,
+    private: true,
     adminFeatures: [],
   },
 ];
@@ -205,16 +213,27 @@ export function ProjectsSection() {
 
                   {/* Right — links */}
                   <div className="flex md:flex-col gap-3 md:items-end flex-shrink-0">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-testid={`project-github-${project.id}`}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border text-sm text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-primary/5 transition-all"
-                    >
-                      <Github size={14} />
-                      GitHub
-                    </a>
+                    {project.github ? (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        data-testid={`project-github-${project.id}`}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border text-sm text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-primary/5 transition-all"
+                      >
+                        <Github size={14} />
+                        GitHub
+                      </a>
+                    ) : (
+                      <span
+                        data-testid={`project-github-${project.id}`}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border text-sm text-muted-foreground/50 cursor-default select-none"
+                        title="Private repository"
+                      >
+                        <Lock size={14} />
+                        Private
+                      </span>
+                    )}
                     {project.live && (
                       <a
                         href={project.live}
@@ -250,14 +269,21 @@ export function ProjectsSection() {
                   <Layers size={16} className="text-primary" />
                 </div>
                 <div className="flex gap-2">
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <Github size={15} />
-                  </a>
+                  {project.github ? (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                      aria-label={`${project.title} GitHub`}
+                    >
+                      <Github size={15} />
+                    </a>
+                  ) : (
+                    <span className="text-muted-foreground/40 cursor-default" title="Private repository">
+                      <Lock size={15} />
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="text-xs font-mono text-primary mb-1">{project.subtitle}</div>
